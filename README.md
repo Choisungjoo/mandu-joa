@@ -10,6 +10,38 @@ docker compose up --build
 
 Open [http://noa/](http://noa/). The Windows hosts file maps `noa` to `127.0.0.1`.
 
+If port 80 is already in use, publish NGINX on another port:
+
+```powershell
+$env:NGINX_PORT = "8088"; docker compose up --build
+```
+
+## Database status screen
+
+Open [http://noa/status/](http://noa/status/), or `http://localhost:<NGINX_PORT>/status/`. The screen shows the following and refreshes every 15 seconds:
+
+- connection health and the connection pool
+- Flyway migrations
+- table sizes
+- retention status per provider
+- sync health and recent sync errors
+
+The screen reads its data from the JSON endpoint `/api/status/database`. The endpoint returns 503 when the database is down, so it can also be used for monitoring.
+
+> The app has no authentication yet, so anyone who can reach it can see this screen. Set `app.status.enabled=false` to turn the screen off, or put it behind auth before the app is exposed publicly.
+
+The screen is a React + TypeScript app in `frontend/`. Maven builds it automatically: `frontend-maven-plugin` downloads its own Node into `target/`, runs `npm ci` and `npm run build`, and puts the output in the jar under `static/status/`. You don't need to install Node to build the project. For a backend-only build, skip the frontend:
+
+```powershell
+.\mvnw.cmd package "-Dskip.npm" "-Dskip.installnodenpm"
+```
+
+To work on the screen with hot reload, run the app on port 8080. Then run this:
+
+```powershell
+cd frontend; npm install; npm run dev
+```
+
 ## Stop the stack
 
 ```powershell

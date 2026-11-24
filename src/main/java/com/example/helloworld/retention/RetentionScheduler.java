@@ -17,6 +17,11 @@ public class RetentionScheduler {
 
     @Scheduled(cron = "${app.retention.cron:0 30 3 * * *}")
     public void runRetention() {
-        retentionService.run();
+        try {
+            retentionService.run();
+        } catch (RuntimeException e) {
+            retentionService.recordFailure(e);
+            throw e;
+        }
     }
 }

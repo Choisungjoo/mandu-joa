@@ -5,7 +5,9 @@ WORKDIR /workspace
 COPY pom.xml .
 RUN mvn --batch-mode --quiet -DskipTests dependency:go-offline
 
+COPY frontend ./frontend
 COPY src ./src
+# Also builds the React status screen (frontend-maven-plugin downloads its own Node).
 RUN mvn --batch-mode -DskipTests package
 
 FROM eclipse-temurin:17-jre

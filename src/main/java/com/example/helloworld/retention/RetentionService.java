@@ -1,5 +1,6 @@
 package com.example.helloworld.retention;
 
+import java.time.Instant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -116,6 +117,20 @@ public class RetentionService {
 
         var report = new Report(true, locations, reviews, interactions, syncErrors, syncRuns, auditEvents);
         log.info("Retention run finished: {}", report);
+        lastRun = new LastRun(Instant.now(), report, null);
         return report;
+    }
+
+    /** Outcome of the most recent run on this instance since startup (shown on the status screen). */
+    public record LastRun(Instant at, Report report, String error) {}
+
+    private volatile LastRun lastRun;
+
+    public LastRun lastRun() {
+        return lastRun;
+    }
+
+    public void recordFailure(Exception e) {
+        lastRun = new LastRun(Instant.now(), null, e.getMessage());
     }
 }
