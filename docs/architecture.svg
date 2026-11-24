@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 610" width="980" height="610" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <!-- background (explicit so it reads in GitHub dark mode) -->
+  <rect x="0" y="0" width="980" height="610" rx="16" fill="#ffffff"/>
+
+  <!-- Docker Compose network -->
+  <rect x="190" y="40" width="770" height="420" rx="14" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="7 5"/>
+  <text x="208" y="66" font-size="13" font-weight="600" fill="#475569">Docker Compose network</text>
+
+  <!-- Browser -->
+  <rect x="24" y="105" width="130" height="76" rx="10" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+  <text x="89" y="139" font-size="15" font-weight="600" fill="#0f172a" text-anchor="middle">Browser</text>
+  <text x="89" y="160" font-size="12" fill="#64748b" text-anchor="middle">Dashboard user</text>
+
+  <!-- NGINX -->
+  <rect x="220" y="105" width="140" height="76" rx="10" fill="#ecfdf5" stroke="#059669" stroke-width="1.5"/>
+  <text x="290" y="139" font-size="15" font-weight="600" fill="#065f46" text-anchor="middle">NGINX</text>
+  <text x="290" y="160" font-size="12" fill="#047857" text-anchor="middle">reverse proxy · :80</text>
+
+  <!-- Spring Boot app -->
+  <rect x="410" y="80" width="300" height="350" rx="12" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.8"/>
+  <text x="560" y="106" font-size="15" font-weight="700" fill="#14532d" text-anchor="middle">Spring Boot app · :8080</text>
+
+  <g font-size="13" text-anchor="middle">
+    <rect x="430" y="120" width="260" height="46" rx="8" fill="#ffffff" stroke="#86efac"/>
+    <text x="560" y="140" font-weight="600" fill="#0f172a">API controllers</text>
+    <text x="560" y="157" font-size="11" fill="#64748b">dashboard + admin REST</text>
+
+    <rect x="430" y="180" width="260" height="46" rx="8" fill="#ffffff" stroke="#86efac"/>
+    <text x="560" y="200" font-weight="600" fill="#0f172a">Application services</text>
+    <text x="560" y="217" font-size="11" fill="#64748b">reviews · drafts · publication</text>
+
+    <rect x="430" y="240" width="260" height="46" rx="8" fill="#ffffff" stroke="#86efac"/>
+    <text x="560" y="260" font-weight="600" fill="#0f172a">Scheduled jobs</text>
+    <text x="560" y="277" font-size="11" fill="#64748b">polling (15 min) · retention (daily)</text>
+
+    <rect x="430" y="300" width="260" height="46" rx="8" fill="#ffffff" stroke="#86efac"/>
+    <text x="560" y="320" font-weight="600" fill="#0f172a">Persistence</text>
+    <text x="560" y="337" font-size="11" fill="#64748b">JPA entities · Flyway migrations</text>
+
+    <rect x="430" y="360" width="260" height="46" rx="8" fill="#ffffff" stroke="#86efac"/>
+    <text x="560" y="380" font-weight="600" fill="#0f172a">Provider integrations</text>
+    <text x="560" y="397" font-size="11" fill="#64748b">Mock · Google Business Profile · …</text>
+  </g>
+
+  <!-- PostgreSQL -->
+  <rect x="770" y="285" width="170" height="76" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="855" y="315" font-size="15" font-weight="600" fill="#1e3a8a" text-anchor="middle">PostgreSQL 17</text>
+  <text x="855" y="334" font-size="11" fill="#1d4ed8" text-anchor="middle">:5432 · private</text>
+  <text x="855" y="350" font-size="11" fill="#1d4ed8" text-anchor="middle">volume: postgres-data</text>
+
+  <!-- External providers -->
+  <text x="392" y="552" font-size="13" font-weight="600" fill="#475569" text-anchor="end">External providers</text>
+  <rect x="410" y="514" width="200" height="66" rx="10" fill="#fff7ed" stroke="#ea580c" stroke-width="1.5"/>
+  <text x="510" y="543" font-size="14" font-weight="600" fill="#7c2d12" text-anchor="middle">Google Business Profile</text>
+  <text x="510" y="562" font-size="11" fill="#c2410c" text-anchor="middle">first provider</text>
+
+  <rect x="630" y="514" width="200" height="66" rx="10" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="730" y="543" font-size="14" font-weight="600" fill="#475569" text-anchor="middle">Facebook · Instagram</text>
+  <text x="730" y="562" font-size="11" fill="#64748b" text-anchor="middle">planned plugins</text>
+
+  <!-- Arrows -->
+  <g stroke="#475569" stroke-width="1.6" fill="none">
+    <line x1="154" y1="143" x2="218" y2="143" marker-end="url(#arrow)"/>
+    <line x1="360" y1="143" x2="428" y2="143" marker-end="url(#arrow)"/>
+    <line x1="690" y1="323" x2="768" y2="323" marker-end="url(#arrow)"/>
+    <line x1="510" y1="406" x2="510" y2="512" marker-end="url(#arrow)"/>
+    <path d="M 640 406 L 640 480 L 730 480 L 730 512" stroke-dasharray="5 4" marker-end="url(#arrow)"/>
+  </g>
+  <g font-size="11" fill="#475569">
+    <text x="186" y="134" text-anchor="middle">HTTP</text>
+    <text x="729" y="314" text-anchor="middle">JDBC</text>
+    <text x="518" y="478">HTTPS · OAuth 2.0</text>
+  </g>
+</svg>

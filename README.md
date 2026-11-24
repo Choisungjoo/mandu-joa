@@ -1,98 +1,66 @@
-# Noa HelloWorld
+# Social Review & Interaction Management Platform
 
-The stack runs in three Docker containers. Spring Boot runs the app, PostgreSQL stores the data, and NGINX proxies browser requests to the app.
+One dashboard for the reviews and interactions a business gets on social and listing platforms.
 
-## Start with Docker
+The platform connects to external providers and polls them for new and updated reviews. It stores everything in PostgreSQL without duplicates, and lets authorized staff draft and publish replies from one place. **Google Business Profile** is the first provider. Facebook, Instagram and other providers can be added later as plugins, without rewriting the core.
 
-```powershell
-docker compose up --build
-```
+![Java](https://img.shields.io/badge/Java-17-orange)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5-6DB33F)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-17-336791)
+![Flyway](https://img.shields.io/badge/Flyway-migrations-CC0200)
+![React](https://img.shields.io/badge/React-TypeScript-61DAFB)
+![Docker](https://img.shields.io/badge/Docker-Compose-2496ED)
 
-Open [http://noa/](http://noa/). The Windows hosts file maps `noa` to `127.0.0.1`.
+---
 
-If port 80 is already in use, publish NGINX on another port:
+## Why
 
-```powershell
-$env:NGINX_PORT = "8088"; docker compose up --build
-```
+A business with several locations gets reviews on several platforms, and each platform has its own inbox. Unanswered reviews get missed, replies are inconsistent, and nobody can see who replied to what. This project pulls everything into one inbox:
 
-## Database status screen
+- **One inbox:** reviews from every connected provider and location, in one list.
+- **Safe replies:** no reply goes out until an authorized user explicitly confirms it, and every action is audited.
+- **Built to extend:** each provider implements one shared integration interface, so a new platform does not change the core.
+- **Compliant by default:** external content is purged on a schedule to follow each provider's data-retention rules.
 
-Open [http://noa/status/](http://noa/status/), or `http://localhost:<NGINX_PORT>/status/`. The screen shows the following and refreshes every 15 seconds:
+## Features
 
-- connection health and the connection pool
-- Flyway migrations
-- table sizes
-- retention status per provider
-- sync health and recent sync errors
+| Area | What it does | Status |
+|---|---|---|
+| Persistence | PostgreSQL schema managed by versioned Flyway migrations | ✅ Done |
+| Deduplication | Unique keys on provider IDs plus `INSERT … ON CONFLICT` upserts | ✅ Done |
+| Retention | Daily purge of expired provider content and old operational data | ✅ Done |
+| Audit trail | Append-only `audit_events` table; a trigger blocks updates | ✅ Done |
+| Status screen | React dashboard for DB health, migrations, table sizes, retention and sync errors | ✅ Done |
+| Provider interface | Pluggable contract for auth, discovery, fetching, publishing and health | 🚧 Planned |
+| Polling engine | Scheduled sync (15 min default), pagination, incremental cursors, backoff, no overlapping runs | 🚧 Planned |
+| Mock provider | Generates and updates fake reviews for demos and tests | 🚧 Planned |
+| Google Business Profile | OAuth 2.0, account/location discovery, review sync, owner replies | 🚧 Planned |
+| Review dashboard | Overview, filterable inbox, draft editor, publish confirmation, integration settings | 🚧 Planned |
+| Security | Spring Security login for the dashboard and admin APIs | 🚧 Planned |
+| Staging | HTTPS deployment behind NGINX on a dedicated subdomain | 🚧 Planned |
 
-The screen reads its data from the JSON endpoint `/api/status/database`. The endpoint returns 503 when the database is down, so it can also be used for monitoring.
+## Architecture
 
-> The app has no authentication yet, so anyone who can reach it can see this screen. Set `app.status.enabled=false` to turn the screen off, or put it behind auth before the app is exposed publicly.
+![Architecture: Browser → NGINX → Spring Boot app → PostgreSQL inside a Docker Compose network, with provider integrations calling Google Business Profile over HTTPS/OAuth 2.0](docs/architecture.svg)
 
-The screen is a React + TypeScript app in `frontend/`. Maven builds it automatically: `frontend-maven-plugin` downloads its own Node into `target/`, runs `npm ci` and `npm run build`, and puts the output in the jar under `static/status/`. You don't need to install Node to build the project. For a backend-only build, skip the frontend:
+Only NGINX is published to the host. The Spring Boot app and PostgreSQL stay on the private Compose network. Provider integrations call external APIs over HTTPS with OAuth 2.0.
 
-```powershell
-.\mvnw.cmd package "-Dskip.npm" "-Dskip.installnodenpm"
-```
+### Data model
 
-To work on the screen with hot reload, run the app on port 8080. Then run this:
+| Migration | Tables | Purpose |
+|---|---|---|
+| V1 | `organizations`, `app_users`, `organization_memberships` | Tenants and the people who use the dashboard |
+| V2 | `integration_providers`, `connected_accounts`, `business_locations` | Connected platforms, accounts and locations or pages |
+| V3 | `reviews`, `interactions`, `response_drafts`, `response_publications` | Synced content and our replies |
+| V4 | `polling_configurations`, `sync_cursors`, `sync_runs`, `sync_errors` | Poll schedules, incremental cursors and sync history |
+| V5 | `audit_events` | Append-only record of user actions |
 
-```powershell
-cd frontend; npm install; npm run dev
-```
+Each record keeps the provider's own identifiers next to the normalized internal fields, so one organization can manage many accounts and locations on many providers.
 
-## Stop the stack
+### Project layout
 
-```powershell
-docker compose down
-```
+![Project layout: Spring Boot backend packages, Flyway migrations, React frontend, and Docker/NGINX infrastructure files](docs/project-layout.svg)
 
-Database data is kept in the `postgres-data` volume, so it survives `docker compose down` and restarts. To erase the database as well, run this:
+## Getting started
 
-```powershell
-docker compose down --volumes
-```
-
-The Spring Boot container listens on port 8080, and PostgreSQL listens on port 5432. Both ports are reachable only inside the Compose network. NGINX is the only service published to Windows, on port 80.
-
-## Database
-
-- **Engine:** PostgreSQL 17. Connection settings are in `compose.yaml` (`SPRING_DATASOURCE_*`). Set `POSTGRES_PASSWORD` in the environment to change the default password.
-- **Migrations:** Flyway runs the scripts in `src/main/resources/db/migration` automatically on startup. Hibernate only validates the schema (`ddl-auto=validate`) and never changes it. To change the schema, add a new `V<n>__description.sql` file. Never edit a migration that has already been applied.
-
-| Migration | Tables |
-|---|---|
-| V1 | `organizations`, `app_users`, `organization_memberships` |
-| V2 | `integration_providers`, `connected_accounts`, `business_locations` |
-| V3 | `reviews`, `interactions`, `response_drafts`, `response_publications` |
-| V4 | `polling_configurations`, `sync_cursors`, `sync_runs`, `sync_errors` |
-| V5 | `audit_events` (append-only; a trigger rejects `UPDATE`) |
-
-### Duplicate prevention
-
-Every provider record has a unique key on its provider identifiers:
-
-- connected accounts: `(organization, provider, external account id)`
-- locations: `(organization, provider, external location id)`
-- reviews: `(location, external review id)`
-- interactions: `(location, type, external id)`
-
-Sync code should write through `ProviderRecordUpserter`. It uses `INSERT … ON CONFLICT DO UPDATE`, so repeated or concurrent syncs update the existing row and never insert a second one. Partial unique indexes allow only one open response draft and one in-flight publication per review.
-
-### Retention
-
-`RetentionService` runs daily at 03:30 (`app.retention.cron`). Runs on different instances are serialized with a Postgres advisory lock.
-
-- **Provider content:** reviewer names and photos, ratings, review and interaction text, location contact details and raw payloads. This content is cleared when it has not been re-fetched within the provider's `content_retention_days`, or once its connected account is disconnected. Both providers are seeded with **30 days**. Provider IDs, the rows themselves, and our own drafts and audit trail are kept, and the next sync refills the same row.
-- **Operational data:** sync errors are deleted after 90 days, sync runs after 180 days, and audit events after 730 days. These limits are set in `application.properties`.
-
-> The 30-day value is a conservative default, not a verified quote of Google's or Meta's current terms. Check each provider's API policy before launch. Change a provider's limits in a new migration.
-
-## Tests
-
-```powershell
-.\mvnw.cmd test
-```
-
-Integration tests start a throwaway PostgreSQL container with Testcontainers, so Docker must be running.
+> 🚧 **Coming soon.** Setup and run instructions will be added once the first milestone is complete.
