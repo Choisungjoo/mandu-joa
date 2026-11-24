@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * <p>There is no authentication in this app yet, so anyone who can reach it can
  * read this. Put it behind auth before exposing the app publicly.
  */
+// TODO(before public release): remove the DB status screen (/status, /api/status/database, frontend/).
 @Controller
 @ConditionalOnProperty(prefix = "app.status", name = "enabled", havingValue = "true", matchIfMissing = true)
 public class DatabaseStatusController {
