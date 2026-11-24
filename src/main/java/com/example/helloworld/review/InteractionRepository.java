@@ -1,0 +1,12 @@
+package com.example.helloworld.review;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface InteractionRepository extends JpaRepository<Interaction, UUID> {
+    List<Interaction> findByReviewIdOrderByOccurredAtAsc(UUID reviewId);
+    Optional<Interaction> findByLocationIdAndInteractionTypeAndExternalInteractionId(
+            UUID locationId, Interaction.Type type, String externalInteractionId);
+}

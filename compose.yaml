@@ -1,0 +1,48 @@
+name: noa
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: noa
+      POSTGRES_USER: noa
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-noa}
+    volumes:
+      # Named volume: data survives container restarts and `docker compose down`.
+      - postgres-data:/var/lib/postgresql/data
+    # Reachable only inside the Compose network; no host port is published.
+    expose:
+      - "5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U noa -d noa"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+    restart: unless-stopped
+
+  app:
+    build: .
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      SERVER_ADDRESS: 0.0.0.0
+      SERVER_PORT: 8080
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/noa
+      SPRING_DATASOURCE_USERNAME: noa
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:-noa}
+    expose:
+      - "8080"
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:alpine
+    depends_on:
+      - app
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+
+volumes:
+  postgres-data:
