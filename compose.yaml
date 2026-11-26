@@ -28,6 +28,8 @@ services:
       postgres:
         condition: service_healthy
     environment:
+      # This Compose file is the local dev setup (ADR 0002). Staging and prod set their own profile.
+      SPRING_PROFILES_ACTIVE: dev
       SERVER_ADDRESS: 0.0.0.0
       SERVER_PORT: 8080
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/mandujoa

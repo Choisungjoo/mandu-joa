@@ -1,0 +1,2 @@
+# Startup checks that run before any bean is created (ADR 0002).
+org.springframework.context.ApplicationListener=com.example.helloworld.config.ProfileSafetyCheck

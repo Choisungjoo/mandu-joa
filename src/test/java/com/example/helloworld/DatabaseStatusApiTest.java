@@ -35,6 +35,10 @@ class DatabaseStatusApiTest {
                 .andExpect(jsonPath("$.retention.providers[*].code",
                         Matchers.hasItems("GOOGLE_BUSINESS_PROFILE", "FACEBOOK_PAGES")))
                 .andExpect(jsonPath("$.sync.runsLast24h.FAILED").value(0))
+                // Retention is disabled in this test: shown as off, but not a warning.
+                .andExpect(jsonPath("$.retention.enabled").value(false))
+                .andExpect(jsonPath("$.health").value("OK"))
+                .andExpect(jsonPath("$.warnings").isEmpty())
                 .andExpect(jsonPath("$.checkedAt").isString());
     }
 
