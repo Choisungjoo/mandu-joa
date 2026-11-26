@@ -3,6 +3,7 @@ package com.example.helloworld;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.example.helloworld.application.retention.RetentionService;
 import com.example.helloworld.persistence.audit.AuditEvent;
 import com.example.helloworld.persistence.audit.AuditEventRepository;
 import com.example.helloworld.persistence.integration.BusinessLocation;
@@ -14,9 +15,8 @@ import com.example.helloworld.persistence.organization.AppUser;
 import com.example.helloworld.persistence.organization.AppUserRepository;
 import com.example.helloworld.persistence.organization.Organization;
 import com.example.helloworld.persistence.organization.OrganizationRepository;
-import com.example.helloworld.retention.RetentionService;
-import com.example.helloworld.persistence.review.ProviderRecordUpserter;
 import com.example.helloworld.persistence.review.ProviderRecordUpserter.ReviewData;
+import com.example.helloworld.persistence.review.ProviderRecordUpserter;
 import com.example.helloworld.persistence.review.ResponseDraft;
 import com.example.helloworld.persistence.review.ResponseDraftRepository;
 import com.example.helloworld.persistence.review.Review;

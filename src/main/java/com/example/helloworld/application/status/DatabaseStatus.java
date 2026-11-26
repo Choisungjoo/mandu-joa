@@ -1,4 +1,4 @@
-package com.example.helloworld.status;
+package com.example.helloworld.application.status;
 
 import java.time.Instant;
 import java.util.List;

@@ -1,5 +1,6 @@
 package com.example.helloworld.retention;
 
+import com.example.helloworld.application.retention.RetentionService;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;

@@ -1,5 +1,7 @@
 package com.example.helloworld.status;
 
+import com.example.helloworld.application.status.DatabaseStatus;
+import com.example.helloworld.application.status.DatabaseStatusService;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
