@@ -22,6 +22,8 @@
         <frontend-maven-plugin.version>1.15.1</frontend-maven-plugin.version>
         <!-- Node used only by the build; downloaded into target/, no global install needed. -->
         <node.version>v22.12.0</node.version>
+        <!-- Not managed by Spring Boot. -->
+        <archunit.version>1.5.1</archunit.version>
     </properties>
 
     <dependencies>
@@ -87,6 +89,13 @@
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>postgresql</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- Layer dependency rules (ADR 0003). Core library only: runs inside a normal JUnit test. -->
+        <dependency>
+            <groupId>com.tngtech.archunit</groupId>
+            <artifactId>archunit</artifactId>
+            <version>${archunit.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
