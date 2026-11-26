@@ -12,6 +12,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.Instant;
+import org.springframework.lang.Nullable;
 
 /**
  * A reply being prepared for a review. The database allows only one open
@@ -86,8 +87,8 @@ public class ResponseDraft extends BaseEntity {
     public Source getSource() { return source; }
     public Status getStatus() { return status; }
     public void setStatus(Status status) { this.status = status; }
-    public AppUser getCreatedBy() { return createdBy; }
-    public AppUser getApprovedBy() { return approvedBy; }
-    public Instant getApprovedAt() { return approvedAt; }
-    public String getRejectionReason() { return rejectionReason; }
+    public @Nullable AppUser getCreatedBy() { return createdBy; }
+    public @Nullable AppUser getApprovedBy() { return approvedBy; }
+    public @Nullable Instant getApprovedAt() { return approvedAt; }
+    public @Nullable String getRejectionReason() { return rejectionReason; }
 }

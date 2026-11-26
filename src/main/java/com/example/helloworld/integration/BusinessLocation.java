@@ -13,6 +13,7 @@ import jakarta.persistence.Table;
 import java.time.Instant;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
+import org.springframework.lang.Nullable;
 
 /** An external business location (Google) or page (Facebook) reachable through a connected account. */
 @Entity
@@ -88,23 +89,23 @@ public class BusinessLocation extends BaseEntity {
     public Type getLocationType() { return locationType; }
     public void setLocationType(Type locationType) { this.locationType = locationType; }
     public String getExternalLocationId() { return externalLocationId; }
-    public String getExternalResourceName() { return externalResourceName; }
+    public @Nullable String getExternalResourceName() { return externalResourceName; }
     public void setExternalResourceName(String name) { this.externalResourceName = name; }
-    public String getExternalPlaceId() { return externalPlaceId; }
+    public @Nullable String getExternalPlaceId() { return externalPlaceId; }
     public void setExternalPlaceId(String externalPlaceId) { this.externalPlaceId = externalPlaceId; }
-    public String getName() { return name; }
+    public @Nullable String getName() { return name; }
     public void setName(String name) { this.name = name; }
-    public String getAddress() { return address; }
+    public @Nullable String getAddress() { return address; }
     public void setAddress(String address) { this.address = address; }
-    public String getPhone() { return phone; }
+    public @Nullable String getPhone() { return phone; }
     public void setPhone(String phone) { this.phone = phone; }
-    public String getWebsiteUrl() { return websiteUrl; }
+    public @Nullable String getWebsiteUrl() { return websiteUrl; }
     public void setWebsiteUrl(String websiteUrl) { this.websiteUrl = websiteUrl; }
-    public String getRawPayload() { return rawPayload; }
+    public @Nullable String getRawPayload() { return rawPayload; }
     public void setRawPayload(String rawPayload) { this.rawPayload = rawPayload; }
     public Status getStatus() { return status; }
     public void setStatus(Status status) { this.status = status; }
-    public Instant getProviderDataFetchedAt() { return providerDataFetchedAt; }
+    public @Nullable Instant getProviderDataFetchedAt() { return providerDataFetchedAt; }
     public void setProviderDataFetchedAt(Instant at) { this.providerDataFetchedAt = at; }
-    public Instant getContentPurgedAt() { return contentPurgedAt; }
+    public @Nullable Instant getContentPurgedAt() { return contentPurgedAt; }
 }

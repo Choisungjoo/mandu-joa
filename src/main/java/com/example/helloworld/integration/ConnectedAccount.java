@@ -12,6 +12,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.Instant;
+import org.springframework.lang.Nullable;
 
 /** A provider account (e.g. a Google Business Profile account) linked to an organization. */
 @Entity
@@ -77,21 +78,21 @@ public class ConnectedAccount extends BaseEntity {
     public Organization getOrganization() { return organization; }
     public String getProviderCode() { return providerCode; }
     public String getExternalAccountId() { return externalAccountId; }
-    public String getDisplayName() { return displayName; }
+    public @Nullable String getDisplayName() { return displayName; }
     public void setDisplayName(String displayName) { this.displayName = displayName; }
-    public String getAccountType() { return accountType; }
+    public @Nullable String getAccountType() { return accountType; }
     public void setAccountType(String accountType) { this.accountType = accountType; }
     public Status getStatus() { return status; }
     public void setStatus(Status status) { this.status = status; }
-    public String getGrantedScopes() { return grantedScopes; }
+    public @Nullable String getGrantedScopes() { return grantedScopes; }
     public void setGrantedScopes(String grantedScopes) { this.grantedScopes = grantedScopes; }
-    public String getCredentialRef() { return credentialRef; }
+    public @Nullable String getCredentialRef() { return credentialRef; }
     public void setCredentialRef(String credentialRef) { this.credentialRef = credentialRef; }
-    public AppUser getConnectedBy() { return connectedBy; }
+    public @Nullable AppUser getConnectedBy() { return connectedBy; }
     public void setConnectedBy(AppUser connectedBy) { this.connectedBy = connectedBy; }
     public Instant getConnectedAt() { return connectedAt; }
     public void setConnectedAt(Instant connectedAt) { this.connectedAt = connectedAt; }
-    public Instant getDisconnectedAt() { return disconnectedAt; }
-    public Instant getLastSyncedAt() { return lastSyncedAt; }
+    public @Nullable Instant getDisconnectedAt() { return disconnectedAt; }
+    public @Nullable Instant getLastSyncedAt() { return lastSyncedAt; }
     public void setLastSyncedAt(Instant lastSyncedAt) { this.lastSyncedAt = lastSyncedAt; }
 }

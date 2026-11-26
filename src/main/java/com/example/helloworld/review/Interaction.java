@@ -14,6 +14,7 @@ import jakarta.persistence.Table;
 import java.time.Instant;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
+import org.springframework.lang.Nullable;
 
 /** A non-review interaction from a provider: owner replies, comments, questions and answers, reactions. */
 @Entity
@@ -84,24 +85,24 @@ public class Interaction extends BaseEntity {
 
     public Organization getOrganization() { return organization; }
     public BusinessLocation getLocation() { return location; }
-    public Review getReview() { return review; }
+    public @Nullable Review getReview() { return review; }
     public void setReview(Review review) { this.review = review; }
     public String getProviderCode() { return providerCode; }
     public String getExternalInteractionId() { return externalInteractionId; }
     public Type getInteractionType() { return interactionType; }
     public AuthorType getAuthorType() { return authorType; }
     public void setAuthorType(AuthorType authorType) { this.authorType = authorType; }
-    public String getAuthorDisplayName() { return authorDisplayName; }
+    public @Nullable String getAuthorDisplayName() { return authorDisplayName; }
     public void setAuthorDisplayName(String name) { this.authorDisplayName = name; }
-    public String getBody() { return body; }
+    public @Nullable String getBody() { return body; }
     public void setBody(String body) { this.body = body; }
-    public Instant getOccurredAt() { return occurredAt; }
+    public @Nullable Instant getOccurredAt() { return occurredAt; }
     public void setOccurredAt(Instant occurredAt) { this.occurredAt = occurredAt; }
-    public String getRawPayload() { return rawPayload; }
+    public @Nullable String getRawPayload() { return rawPayload; }
     public void setRawPayload(String rawPayload) { this.rawPayload = rawPayload; }
     public Instant getProviderDataFetchedAt() { return providerDataFetchedAt; }
     public void setProviderDataFetchedAt(Instant at) { this.providerDataFetchedAt = at; }
-    public Instant getRemovedAtProviderAt() { return removedAtProviderAt; }
+    public @Nullable Instant getRemovedAtProviderAt() { return removedAtProviderAt; }
     public void setRemovedAtProviderAt(Instant at) { this.removedAtProviderAt = at; }
-    public Instant getContentPurgedAt() { return contentPurgedAt; }
+    public @Nullable Instant getContentPurgedAt() { return contentPurgedAt; }
 }

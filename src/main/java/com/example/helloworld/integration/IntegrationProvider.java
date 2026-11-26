@@ -7,6 +7,7 @@ import jakarta.persistence.Table;
 import java.time.Instant;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.lang.Nullable;
 
 /** A review platform (Google Business Profile, Facebook Pages, ...) and its retention rules. */
 @Entity
@@ -47,7 +48,7 @@ public class IntegrationProvider {
     public String getDisplayName() { return displayName; }
     public boolean isEnabled() { return enabled; }
     public void setEnabled(boolean enabled) { this.enabled = enabled; }
-    public Integer getContentRetentionDays() { return contentRetentionDays; }
+    public @Nullable Integer getContentRetentionDays() { return contentRetentionDays; }
     public void setContentRetentionDays(Integer days) { this.contentRetentionDays = days; }
     public int getDisconnectedPurgeDays() { return disconnectedPurgeDays; }
     public void setDisconnectedPurgeDays(int days) { this.disconnectedPurgeDays = days; }

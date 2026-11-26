@@ -14,6 +14,7 @@ import jakarta.persistence.Table;
 import java.time.Instant;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
+import org.springframework.lang.Nullable;
 
 /**
  * A review imported from a provider. Write synced reviews through
@@ -99,32 +100,32 @@ public class Review extends BaseEntity {
     public BusinessLocation getLocation() { return location; }
     public String getProviderCode() { return providerCode; }
     public String getExternalReviewId() { return externalReviewId; }
-    public String getExternalResourceName() { return externalResourceName; }
+    public @Nullable String getExternalResourceName() { return externalResourceName; }
     public void setExternalResourceName(String name) { this.externalResourceName = name; }
-    public String getReviewerDisplayName() { return reviewerDisplayName; }
+    public @Nullable String getReviewerDisplayName() { return reviewerDisplayName; }
     public void setReviewerDisplayName(String name) { this.reviewerDisplayName = name; }
-    public String getReviewerProfilePhotoUrl() { return reviewerProfilePhotoUrl; }
+    public @Nullable String getReviewerProfilePhotoUrl() { return reviewerProfilePhotoUrl; }
     public void setReviewerProfilePhotoUrl(String url) { this.reviewerProfilePhotoUrl = url; }
     public boolean isReviewerAnonymous() { return reviewerAnonymous; }
     public void setReviewerAnonymous(boolean anonymous) { this.reviewerAnonymous = anonymous; }
-    public Short getStarRating() { return starRating; }
+    public @Nullable Short getStarRating() { return starRating; }
     public void setStarRating(Short starRating) { this.starRating = starRating; }
-    public String getComment() { return comment; }
+    public @Nullable String getComment() { return comment; }
     public void setComment(String comment) { this.comment = comment; }
-    public String getLanguageCode() { return languageCode; }
+    public @Nullable String getLanguageCode() { return languageCode; }
     public void setLanguageCode(String languageCode) { this.languageCode = languageCode; }
-    public Instant getReviewCreatedAt() { return reviewCreatedAt; }
+    public @Nullable Instant getReviewCreatedAt() { return reviewCreatedAt; }
     public void setReviewCreatedAt(Instant at) { this.reviewCreatedAt = at; }
-    public Instant getReviewUpdatedAt() { return reviewUpdatedAt; }
+    public @Nullable Instant getReviewUpdatedAt() { return reviewUpdatedAt; }
     public void setReviewUpdatedAt(Instant at) { this.reviewUpdatedAt = at; }
     public ReplyStatus getReplyStatus() { return replyStatus; }
     public void setReplyStatus(ReplyStatus replyStatus) { this.replyStatus = replyStatus; }
-    public String getRawPayload() { return rawPayload; }
+    public @Nullable String getRawPayload() { return rawPayload; }
     public void setRawPayload(String rawPayload) { this.rawPayload = rawPayload; }
     public Instant getFirstSeenAt() { return firstSeenAt; }
     public Instant getProviderDataFetchedAt() { return providerDataFetchedAt; }
     public void setProviderDataFetchedAt(Instant at) { this.providerDataFetchedAt = at; }
-    public Instant getRemovedAtProviderAt() { return removedAtProviderAt; }
+    public @Nullable Instant getRemovedAtProviderAt() { return removedAtProviderAt; }
     public void setRemovedAtProviderAt(Instant at) { this.removedAtProviderAt = at; }
-    public Instant getContentPurgedAt() { return contentPurgedAt; }
+    public @Nullable Instant getContentPurgedAt() { return contentPurgedAt; }
 }
