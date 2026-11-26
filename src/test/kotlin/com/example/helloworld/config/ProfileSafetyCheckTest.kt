@@ -17,7 +17,12 @@ class ProfileSafetyCheckTest {
     private fun problems(profile: String, vararg props: Pair<String, String>) =
         ProfileSafetyCheck.problems(env(profile, *props))
 
-    private val safe = arrayOf("app.status.enabled" to "false", "spring.datasource.password" to "s3cret")
+    private val safe = arrayOf(
+        "app.status.enabled" to "false",
+        "spring.datasource.url" to "jdbc:postgresql://db:5432/mandujoa",
+        "spring.datasource.username" to "mandujoa",
+        "spring.datasource.password" to "s3cret",
+    )
 
     @Test
     fun `dev allows the dev password and the status screen`() {
@@ -33,7 +38,8 @@ class ProfileSafetyCheckTest {
     @Test
     fun `prod refuses the status screen, also when the setting is missing`() {
         assertThat(problems("prod", *safe, "app.status.enabled" to "true")).singleElement().asString().contains("app.status.enabled")
-        assertThat(problems("prod", "spring.datasource.password" to "s3cret")).singleElement().asString().contains("app.status.enabled")
+        val withoutStatus = safe.filterNot { it.first == "app.status.enabled" }.toTypedArray()
+        assertThat(problems("prod", *withoutStatus)).singleElement().asString().contains("app.status.enabled")
     }
 
     @Test
@@ -57,8 +63,19 @@ class ProfileSafetyCheckTest {
     @Test
     fun `staging and prod report a missing password clearly`() {
         for (profile in listOf("staging", "prod")) {
-            assertThat(problems(profile, "app.status.enabled" to "false", "spring.datasource.password" to "\${DB_PASSWORD}"))
+            assertThat(problems(profile, *safe, "spring.datasource.password" to "\${DB_PASSWORD}"))
                 .`as`(profile).singleElement().asString().contains("DB_PASSWORD")
+        }
+    }
+
+    @Test
+    fun `staging and prod report a missing database URL and user`() {
+        for (profile in listOf("staging", "prod")) {
+            assertThat(problems(profile, "app.status.enabled" to "false", "spring.datasource.password" to "s3cret"))
+                .`as`(profile)
+                .anySatisfy { assertThat(it).contains("SPRING_DATASOURCE_URL") }
+                .anySatisfy { assertThat(it).contains("SPRING_DATASOURCE_USERNAME") }
+                .hasSize(2)
         }
     }
 
@@ -69,7 +86,12 @@ class ProfileSafetyCheckTest {
             SpringApplicationBuilder(HelloWorldApplication::class.java)
                 .profiles("prod")
                 // Command-line arguments override the profile files, as environment variables would.
-                .run("--app.status.enabled=true", "--spring.datasource.password=s3cret")
+                .run(
+                    "--app.status.enabled=true",
+                    "--spring.datasource.url=jdbc:postgresql://db:5432/mandujoa",
+                    "--spring.datasource.username=mandujoa",
+                    "--spring.datasource.password=s3cret",
+                )
         }.isInstanceOf(IllegalStateException::class.java)
             .hasMessageContaining("Refusing to start").hasMessageContaining("app.status.enabled")
     }

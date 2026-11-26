@@ -42,6 +42,13 @@ class ProfileSafetyCheck : ApplicationListener<ApplicationEnvironmentPreparedEve
                 }
             }
             if (prod || staging) {
+                // Only application-dev.properties has a URL and user; servers supply their own.
+                if (env.getProperty("spring.datasource.url").isNullOrBlank()) {
+                    problems += "the database URL is not set: set SPRING_DATASOURCE_URL"
+                }
+                if (env.getProperty("spring.datasource.username").isNullOrBlank()) {
+                    problems += "the database user is not set: set SPRING_DATASOURCE_USERNAME"
+                }
                 val password = try {
                     env.getProperty("spring.datasource.password")
                 } catch (e: IllegalArgumentException) {
