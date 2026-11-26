@@ -76,7 +76,7 @@ public class DatabaseStatusService {
         if (connection.pool() != null && connection.pool().waiting() > 0) {
             warnings.add(connection.pool().waiting() + " thread(s) waiting for a database connection");
         }
-        if (!retention.enabled()) warnings.add("Scheduled retention is disabled");
+        // Retention being off is expected in the dev profile (ADR 0002); the retention card shows it as "Off".
         if (retention.lastRunError() != null) warnings.add("Last retention run failed: " + retention.lastRunError());
         if (sync != null && sync.failingConfigs() > 0) {
             warnings.add(sync.failingConfigs() + " polling configuration(s) failing repeatedly");
