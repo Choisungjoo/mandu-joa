@@ -29,10 +29,18 @@ Converting all of it now adds no features and risks breaking working, tested cod
 1. Investigate in Java first. Conversion starts only once the cause is confirmed to be `null` handling.
 2. Convert **the whole package** that contains the problem, so no new Java/Kotlin boundary is created inside it.
 3. Write a **separate ADR** for each package conversion, before converting. It records the problem, the package, and the checks.
-4. Do it in two separate steps, never mixed:
-   1. **Convert only.** Behaviour stays the same; the existing tests must pass unchanged.
+4. **Check test coverage first.** If the existing tests do not exercise the package's behaviour, add tests before converting. They must pass against the current Java code, so they can show whether the Kotlin version behaves the same.
+5. Then do it in two separate steps, never mixed:
+   1. **Convert only.** Behaviour stays the same; the existing tests must pass unchanged. Tests are not edited in this step.
    2. **Fix.** Fix the `null` problem in Kotlin and add a test that reproduces it.
-5. If the Kotlin compiler shows more `null` issues during the conversion, write them down and fix them in step 2 or in follow-up work.
+6. **Final check when the conversion is complete:**
+   - the project compiles with no new warnings;
+   - the full test suite passes (`.\mvnw.cmd test`);
+   - the app starts in Docker (`docker compose up -d --build`) and Flyway and Hibernate `validate` succeed;
+   - the status screen and its API respond normally.
+
+   If a test fails, first check whether the cause is the environment (for example Docker not running) or the code.
+7. If the Kotlin compiler shows more `null` issues during the conversion, write them down and fix them in step 2 or in follow-up work.
 
 ### 3. Build setup and conventions
 
