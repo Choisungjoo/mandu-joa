@@ -57,6 +57,7 @@ Converting all of it now adds no features and risks breaking working, tested cod
   - Value types are `data class`es.
   - Constructor injection only.
   - At Java/Kotlin boundaries, values from Java are typed explicitly as nullable or non-null instead of relying on platform types.
+  - Getters of Java JPA entities that can return `null` are marked with Spring's `@Nullable` (`org.springframework.lang.Nullable`), so Kotlin sees them as nullable types under `-Xjsr305=strict`. Hibernate `validate` does not compare nullability, so a test checks every entity field's `@Nullable` against the column's `is_nullable` in PostgreSQL.
 
 ## Alternatives considered
 
