@@ -1,4 +1,4 @@
-package com.example.helloworld.retention;
+package com.example.helloworld.job;
 
 import com.example.helloworld.application.retention.RetentionService;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
