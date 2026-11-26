@@ -1,11 +1,12 @@
-name: noa
+name: mandujoa
 
 services:
   postgres:
     image: postgres:17-alpine
+    container_name: mandujoa_postgres
     environment:
-      POSTGRES_DB: noa
-      POSTGRES_USER: noa
+      POSTGRES_DB: mandujoa
+      POSTGRES_USER: mandujoa
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-noa}
     volumes:
       # Named volume: data survives container restarts and `docker compose down`.
@@ -14,7 +15,7 @@ services:
     expose:
       - "5432"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U noa -d noa"]
+      test: ["CMD-SHELL", "pg_isready -U mandujoa -d mandujoa"]
       interval: 5s
       timeout: 5s
       retries: 12
@@ -22,14 +23,15 @@ services:
 
   app:
     build: .
+    container_name: mandujoa_app
     depends_on:
       postgres:
         condition: service_healthy
     environment:
       SERVER_ADDRESS: 0.0.0.0
       SERVER_PORT: 8080
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/noa
-      SPRING_DATASOURCE_USERNAME: noa
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/mandujoa
+      SPRING_DATASOURCE_USERNAME: mandujoa
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:-noa}
     expose:
       - "8080"
@@ -37,6 +39,7 @@ services:
 
   nginx:
     image: nginx:alpine
+    container_name: mandujoa_nginx
     depends_on:
       - app
     ports:
@@ -44,6 +47,9 @@ services:
       - "${NGINX_PORT:-80}:80"
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    # Without this, nginx stays down after Docker Desktop restarts while app and postgres come back.
+    restart: unless-stopped
 
 volumes:
   postgres-data:
+    name: mandujoa_postgres-data
