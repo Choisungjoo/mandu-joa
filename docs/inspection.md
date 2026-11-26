@@ -1,5 +1,7 @@
 # Repository inspection
 
+> **Point-in-time record.** This describes the repository before ADR 0002 (profiles) and ADR 0003 (layered packages); paths and some risks have changed since. For the current structure and extension points, see [architecture.md](architecture.md).
+
 - **Ticket:** 1 — "Inspect the existing repository, services, Docker configuration, Maven dependencies, and NGINX routing"
 - **Date:** 2026-11-27
 - **Inspected state:** commit `a038528` on `main`. The Kotlin build setup (ADR [0001](decisions/0001-kotlin-for-new-code.md)) was in progress in `pom.xml` and is not described here.
