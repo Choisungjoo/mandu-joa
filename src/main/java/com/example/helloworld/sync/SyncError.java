@@ -10,6 +10,7 @@ import java.time.Instant;
 import java.util.UUID;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
+import org.springframework.lang.Nullable;
 
 /** An error raised while synchronizing. Immutable once written; removed by retention. */
 @Entity
@@ -72,14 +73,14 @@ public class SyncError {
 
     public UUID getId() { return id; }
     public UUID getOrganizationId() { return organizationId; }
-    public UUID getSyncRunId() { return syncRunId; }
-    public UUID getConnectedAccountId() { return connectedAccountId; }
-    public UUID getLocationId() { return locationId; }
-    public String getProviderCode() { return providerCode; }
-    public String getErrorCode() { return errorCode; }
-    public Integer getHttpStatus() { return httpStatus; }
+    public @Nullable UUID getSyncRunId() { return syncRunId; }
+    public @Nullable UUID getConnectedAccountId() { return connectedAccountId; }
+    public @Nullable UUID getLocationId() { return locationId; }
+    public @Nullable String getProviderCode() { return providerCode; }
+    public @Nullable String getErrorCode() { return errorCode; }
+    public @Nullable Integer getHttpStatus() { return httpStatus; }
     public String getMessage() { return message; }
-    public String getDetails() { return details; }
+    public @Nullable String getDetails() { return details; }
     public boolean isRetryable() { return retryable; }
     public Instant getOccurredAt() { return occurredAt; }
 }

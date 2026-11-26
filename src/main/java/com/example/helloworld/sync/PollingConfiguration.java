@@ -13,6 +13,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.Instant;
+import org.springframework.lang.Nullable;
 
 /**
  * How often to poll one resource of a connected account. LOCATIONS is polled
@@ -110,7 +111,7 @@ public class PollingConfiguration extends BaseEntity {
 
     public Organization getOrganization() { return organization; }
     public ConnectedAccount getConnectedAccount() { return connectedAccount; }
-    public BusinessLocation getLocation() { return location; }
+    public @Nullable BusinessLocation getLocation() { return location; }
     public ResourceType getResourceType() { return resourceType; }
     public boolean isEnabled() { return enabled; }
     public void setEnabled(boolean enabled) { this.enabled = enabled; }
@@ -118,9 +119,9 @@ public class PollingConfiguration extends BaseEntity {
     public void setIntervalSeconds(int intervalSeconds) { this.intervalSeconds = intervalSeconds; }
     public Instant getNextRunAt() { return nextRunAt; }
     public void setNextRunAt(Instant nextRunAt) { this.nextRunAt = nextRunAt; }
-    public Instant getLastRunAt() { return lastRunAt; }
-    public Instant getLastSuccessAt() { return lastSuccessAt; }
+    public @Nullable Instant getLastRunAt() { return lastRunAt; }
+    public @Nullable Instant getLastSuccessAt() { return lastSuccessAt; }
     public int getConsecutiveFailures() { return consecutiveFailures; }
-    public String getLeaseOwner() { return leaseOwner; }
-    public Instant getLeaseExpiresAt() { return leaseExpiresAt; }
+    public @Nullable String getLeaseOwner() { return leaseOwner; }
+    public @Nullable Instant getLeaseExpiresAt() { return leaseExpiresAt; }
 }

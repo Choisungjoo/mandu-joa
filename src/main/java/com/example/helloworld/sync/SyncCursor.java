@@ -8,6 +8,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.Instant;
+import org.springframework.lang.Nullable;
 
 /** Where the last sync of a polling configuration stopped (page token, watermark, ETag). */
 @Entity
@@ -41,10 +42,10 @@ public class SyncCursor extends BaseEntity {
 
     public PollingConfiguration getPollingConfiguration() { return pollingConfiguration; }
     public String getCursorKey() { return cursorKey; }
-    public String getPageToken() { return pageToken; }
+    public @Nullable String getPageToken() { return pageToken; }
     public void setPageToken(String pageToken) { this.pageToken = pageToken; }
-    public Instant getHighWatermark() { return highWatermark; }
+    public @Nullable Instant getHighWatermark() { return highWatermark; }
     public void setHighWatermark(Instant highWatermark) { this.highWatermark = highWatermark; }
-    public String getEtag() { return etag; }
+    public @Nullable String getEtag() { return etag; }
     public void setEtag(String etag) { this.etag = etag; }
 }

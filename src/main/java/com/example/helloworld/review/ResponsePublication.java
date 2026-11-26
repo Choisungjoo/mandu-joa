@@ -13,6 +13,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.Instant;
 import java.util.UUID;
+import org.springframework.lang.Nullable;
 
 /**
  * One request to publish an approved draft to the provider, with its retry
@@ -109,11 +110,11 @@ public class ResponsePublication extends BaseEntity {
     public void setStatus(Status status) { this.status = status; }
     public String getIdempotencyKey() { return idempotencyKey; }
     public int getAttemptCount() { return attemptCount; }
-    public Instant getNextAttemptAt() { return nextAttemptAt; }
-    public String getPublishedBody() { return publishedBody; }
-    public String getExternalReplyId() { return externalReplyId; }
-    public Instant getPublishedAt() { return publishedAt; }
-    public String getLastErrorCode() { return lastErrorCode; }
-    public String getLastErrorMessage() { return lastErrorMessage; }
-    public AppUser getRequestedBy() { return requestedBy; }
+    public @Nullable Instant getNextAttemptAt() { return nextAttemptAt; }
+    public @Nullable String getPublishedBody() { return publishedBody; }
+    public @Nullable String getExternalReplyId() { return externalReplyId; }
+    public @Nullable Instant getPublishedAt() { return publishedAt; }
+    public @Nullable String getLastErrorCode() { return lastErrorCode; }
+    public @Nullable String getLastErrorMessage() { return lastErrorMessage; }
+    public @Nullable AppUser getRequestedBy() { return requestedBy; }
 }

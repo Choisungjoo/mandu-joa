@@ -8,6 +8,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
 import java.time.Instant;
 import java.util.UUID;
+import org.springframework.lang.Nullable;
 
 /** History of one synchronization pass. */
 @Entity
@@ -95,18 +96,18 @@ public class SyncRun extends BaseEntity {
     }
 
     public UUID getOrganizationId() { return organizationId; }
-    public UUID getPollingConfigurationId() { return pollingConfigurationId; }
-    public UUID getConnectedAccountId() { return connectedAccountId; }
-    public UUID getLocationId() { return locationId; }
+    public @Nullable UUID getPollingConfigurationId() { return pollingConfigurationId; }
+    public @Nullable UUID getConnectedAccountId() { return connectedAccountId; }
+    public @Nullable UUID getLocationId() { return locationId; }
     public PollingConfiguration.ResourceType getResourceType() { return resourceType; }
     public Trigger getTriggerType() { return triggerType; }
     public Status getStatus() { return status; }
     public Instant getStartedAt() { return startedAt; }
-    public Instant getFinishedAt() { return finishedAt; }
+    public @Nullable Instant getFinishedAt() { return finishedAt; }
     public int getItemsFetched() { return itemsFetched; }
     public int getItemsCreated() { return itemsCreated; }
     public int getItemsUpdated() { return itemsUpdated; }
     public int getItemsRemoved() { return itemsRemoved; }
-    public String getCursorBefore() { return cursorBefore; }
-    public String getCursorAfter() { return cursorAfter; }
+    public @Nullable String getCursorBefore() { return cursorBefore; }
+    public @Nullable String getCursorAfter() { return cursorAfter; }
 }

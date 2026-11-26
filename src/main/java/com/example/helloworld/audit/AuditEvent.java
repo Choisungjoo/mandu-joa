@@ -13,6 +13,7 @@ import java.util.UUID;
 import org.hibernate.annotations.Immutable;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
+import org.springframework.lang.Nullable;
 
 /**
  * Append-only record of a user action or system change. A database trigger
@@ -102,16 +103,16 @@ public class AuditEvent {
     }
 
     public UUID getId() { return id; }
-    public UUID getOrganizationId() { return organizationId; }
+    public @Nullable UUID getOrganizationId() { return organizationId; }
     public ActorType getActorType() { return actorType; }
-    public UUID getActorUserId() { return actorUserId; }
-    public String getActorLabel() { return actorLabel; }
+    public @Nullable UUID getActorUserId() { return actorUserId; }
+    public @Nullable String getActorLabel() { return actorLabel; }
     public String getAction() { return action; }
-    public String getEntityType() { return entityType; }
-    public UUID getEntityId() { return entityId; }
-    public String getChanges() { return changes; }
-    public String getIpAddress() { return ipAddress; }
-    public String getUserAgent() { return userAgent; }
-    public String getRequestId() { return requestId; }
+    public @Nullable String getEntityType() { return entityType; }
+    public @Nullable UUID getEntityId() { return entityId; }
+    public @Nullable String getChanges() { return changes; }
+    public @Nullable String getIpAddress() { return ipAddress; }
+    public @Nullable String getUserAgent() { return userAgent; }
+    public @Nullable String getRequestId() { return requestId; }
     public Instant getOccurredAt() { return occurredAt; }
 }
