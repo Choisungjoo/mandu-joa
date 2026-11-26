@@ -11,7 +11,7 @@ import com.example.helloworld.application.status.DatabaseStatus.RecentError;
 import com.example.helloworld.application.status.DatabaseStatus.Retention;
 import com.example.helloworld.application.status.DatabaseStatus.Sync;
 import com.example.helloworld.application.status.DatabaseStatus.TableStat;
-import com.example.helloworld.retention.RetentionProperties;
+import com.example.helloworld.config.RetentionProperties;
 import com.zaxxer.hikari.HikariDataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;

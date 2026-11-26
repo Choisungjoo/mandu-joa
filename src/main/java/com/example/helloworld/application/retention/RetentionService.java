@@ -1,6 +1,6 @@
 package com.example.helloworld.application.retention;
 
-import com.example.helloworld.retention.RetentionProperties;
+import com.example.helloworld.config.RetentionProperties;
 import java.time.Instant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

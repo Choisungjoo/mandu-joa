@@ -1,4 +1,4 @@
-package com.example.helloworld.retention;
+package com.example.helloworld.config;
 
 import jakarta.validation.constraints.Min;
 import org.springframework.boot.context.properties.ConfigurationProperties;
