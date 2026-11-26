@@ -1,4 +1,4 @@
-package com.example.helloworld.status;
+package com.example.helloworld.api.status;
 
 import com.example.helloworld.application.status.DatabaseStatus;
 import com.example.helloworld.application.status.DatabaseStatusService;
