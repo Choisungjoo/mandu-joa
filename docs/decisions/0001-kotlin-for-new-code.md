@@ -1,6 +1,6 @@
 # 0001. Kotlin for new code, Java kept for existing code
 
-- **Status:** Proposed
+- **Status:** Accepted
 - **Date:** 2026-11-27
 - **Ticket:** 1
 
@@ -49,6 +49,7 @@ Converting all of it now adds no features and risks breaking working, tested cod
   - `spring`: opens Spring beans so `@Transactional`, `@Scheduled` and other proxies work.
   - `jpa`: generates the no-arg constructor that JPA needs.
   - `all-open` for `@Entity`, `@MappedSuperclass` and `@Embeddable`, so Hibernate can create lazy-loading proxies.
+- Compiler option `-Xjsr305=strict`: Spring's `@Nullable`/`@NonNullApi` annotations become real Kotlin types, so a missed `null` check on a Spring API is a compile error, not a warning. It affects Kotlin code only.
 - Dependencies: `kotlin-stdlib`, `kotlin-reflect`, `jackson-module-kotlin`.
 - **Kotlin version:** the one managed by Spring Boot 3.5.16 (1.9.25), with no override.
 - Conventions:
@@ -71,5 +72,5 @@ Converting all of it now adds no features and risks breaking working, tested cod
 - The codebase is mixed Java and Kotlin for a long time. Contributors need to read both.
 - Over time, new features and `null` fixes move more code to Kotlin, so Kotlin becomes the primary language without a big-bang rewrite.
 - `null` is least safe where Kotlin calls Java. Boundaries need explicit types.
-- The Kotlin build setup must be added before the first Kotlin file. That happens in the first ticket that writes Kotlin code.
+- The Kotlin build setup is added as its own step, before any ticket writes Kotlin code, together with one small Kotlin test that proves Kotlin and Java compile and run together. Build problems are then found apart from feature work.
 - Each package conversion has its own ADR, so the history shows why each part moved to Kotlin.
